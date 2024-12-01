@@ -146,7 +146,7 @@ const StepOne: React.FC = () => {
           onClick={handleSubmit}
           className={defaultButtonStyle}
         >
-          Save and Continue
+          Save and Continue to Step 2
         </button>
       </form>
     </div>

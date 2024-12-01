@@ -1,7 +1,19 @@
 import InputField from "@/components/InputField";
 import { useState } from "react";
 
-const DynamicForm = ({ fields, data, setData }) => {
+interface IDynamicFormProps {
+  fields: any;
+  data: any;
+  setData: any;
+  callback?: any;
+}
+
+const DynamicForm = ({
+  fields,
+  data,
+  setData,
+  callback,
+}: IDynamicFormProps) => {
   const initialFieldState = fields.reduce((acc, field) => {
     acc[field.name] =
       field.type === "number" ? 0 : field.type === "checkbox" ? false : "";
@@ -29,6 +41,9 @@ const DynamicForm = ({ fields, data, setData }) => {
     if (isValid) {
       setData((prev) => [...prev, currentItem]);
       setCurrentItem(initialFieldState);
+      if (callback) {
+        callback([...data, currentItem]);
+      }
     } else {
       alert("Please fill all required fields.");
     }
@@ -43,7 +58,7 @@ const DynamicForm = ({ fields, data, setData }) => {
     <div>
       {/* Render input fields dynamically */}
       <div className="flex gap-4 flex-wrap">
-        {fields.map(({ name, label, type, placeholder, required }) => (
+        {fields.map(({ name, label, type, placeholder, required, data }) => (
           <InputField
             key={name}
             name={name}
@@ -53,6 +68,7 @@ const DynamicForm = ({ fields, data, setData }) => {
             placeholder={placeholder || ""}
             required={required}
             type={type || "text"}
+            options={data}
           />
         ))}
         <button

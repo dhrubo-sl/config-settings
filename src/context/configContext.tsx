@@ -40,34 +40,31 @@ export const ConfigContextProvider = ({
     }
   }, [configData, dataLoaded]);
 
-  const updateConfigDetails = useCallback(
-    (payload: Record<string, any>) => {
-      setConfigData((prevData: ISettings) => {
-        console.log({ prevData });
+  const updateConfigDetails = useCallback((payload: Partial<ISettings>) => {
+    setConfigData((prevData: ISettings) => {
+      console.log({ prevData });
 
-        // Split the name into a path (e.g., 'user.address.city' -> ['user', 'address', 'city'])
-        const keys = payload.name.split(".");
+      // Split the name into a path (e.g., 'user.address.city' -> ['user', 'address', 'city'])
+      const keys = payload.name.split(".");
 
-        // Make a shallow copy of the nested object
-        const updatedData = { ...prevData };
+      // Make a shallow copy of the nested object
+      const updatedData = { ...prevData };
 
-        // Use a pointer to traverse the nested structure
-        let pointer: any = updatedData;
+      // Use a pointer to traverse the nested structure
+      let pointer: any = updatedData;
 
-        // Traverse the path except the last key
-        keys.slice(0, -1).forEach((key: string) => {
-          if (!pointer[key]) pointer[key] = {}; // Ensure the path exists
-          pointer = pointer[key];
-        });
-
-        // Update the final key
-        pointer[keys[keys.length - 1]] = payload.value;
-
-        return updatedData;
+      // Traverse the path except the last key
+      keys.slice(0, -1).forEach((key: string) => {
+        if (!pointer[key]) pointer[key] = {}; // Ensure the path exists
+        pointer = pointer[key];
       });
-    },
-    [configData]
-  );
+
+      // Update the final key
+      pointer[keys[keys.length - 1]] = payload.value;
+
+      return updatedData;
+    });
+  }, []);
 
   const saveDataToLocalStorage = (currentConfigData: ISettings) => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(currentConfigData));

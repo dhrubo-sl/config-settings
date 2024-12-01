@@ -14,7 +14,7 @@ const StepTwo: React.FC = () => {
   const [icons, setIcons] = useState([]);
   const [mediaOptions, setMediaOptions] = useState([]);
   const [sourceAudioFiles, setSourceAudioFiles] = useState([]);
-  const [steps, setSteps] = useState([]);
+  //   const [steps, setSteps] = useState([]);
 
   // Set default values from configData if available
   useEffect(() => {
@@ -23,7 +23,7 @@ const StepTwo: React.FC = () => {
       setIcons(configData.icons || []);
       setMediaOptions(configData.mediaOptions || []);
       setSourceAudioFiles(configData.sourceAudioFiles || []);
-      setSteps(configData.setSteps || []);
+      //   setSteps(configData.setSteps || []);
     }
   }, [configData]);
 
@@ -33,7 +33,7 @@ const StepTwo: React.FC = () => {
       { name: "icons", data: icons },
       { name: "mediaOptions", data: mediaOptions },
       { name: "sourceAudioFiles", data: sourceAudioFiles },
-      { name: "steps", data: steps },
+      //   { name: "steps", data: steps },
     ];
 
     configArray.map((e) => {
@@ -102,22 +102,22 @@ const StepTwo: React.FC = () => {
       data: mediaOptions,
       setData: setMediaOptions,
     },
-    {
-      title: "Manage Steps",
-      name: "steps",
-      fields: [
-        { name: "name", label: "Name", type: "text", required: true },
-        { name: "order", label: "Order", type: "number", required: true },
-        {
-          name: "hasToggle",
-          label: "Has Toggle",
-          type: "checkbox",
-          required: false,
-        },
-      ],
-      data: steps,
-      setData: setSteps,
-    },
+    // {
+    //   title: "Manage Steps",
+    //   name: "steps",
+    //   fields: [
+    //     { name: "name", label: "Name", type: "text", required: true },
+    //     { name: "order", label: "Order", type: "number", required: true },
+    //     {
+    //       name: "hasToggle",
+    //       label: "Has Toggle",
+    //       type: "checkbox",
+    //       required: false,
+    //     },
+    //   ],
+    //   data: steps,
+    //   setData: setSteps,
+    // },
   ];
 
   return (
@@ -135,7 +135,7 @@ const StepTwo: React.FC = () => {
         onClick={handleSubmit}
         className={defaultButtonStyle}
       >
-        Save and Continue
+        Save and Continue to Step 3
       </button>
     </form>
   );
