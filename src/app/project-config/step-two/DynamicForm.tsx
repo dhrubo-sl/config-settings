@@ -1,4 +1,6 @@
+import AddItemButton from "@/components/AddItemButton";
 import InputField from "@/components/InputField";
+import ViewItems from "@/components/ViewItems";
 import { useState } from "react";
 
 interface IDynamicFormProps {
@@ -55,9 +57,9 @@ const DynamicForm = ({
   };
 
   return (
-    <div>
+    <div className="">
       {/* Render input fields dynamically */}
-      <div className="flex gap-4 flex-wrap">
+      <div className="flex flex-wrap">
         {fields.map(({ name, label, type, placeholder, required, data }) => (
           <InputField
             key={name}
@@ -71,17 +73,13 @@ const DynamicForm = ({
             options={data}
           />
         ))}
-        <button
-          type="button"
-          onClick={addItem}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Add
-        </button>
       </div>
+      <AddItemButton title="Add" handleOnClick={addItem} />
+
+      <ViewItems items={data} handleOnClick={removeItem} />
 
       {/* Render list of items */}
-      <ul className="mt-4">
+      {/* <ul className="mt-4">
         {data.map((item, index) => (
           <li key={index} className="flex items-center gap-4">
             <span>{JSON.stringify(item)}</span>
@@ -94,7 +92,7 @@ const DynamicForm = ({
             </button>
           </li>
         ))}
-      </ul>
+      </ul> */}
 
       {/* JSON Preview */}
       {/* <pre className="mt-4 bg-gray-100 p-4 rounded">

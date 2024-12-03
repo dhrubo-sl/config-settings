@@ -1,9 +1,12 @@
-export const ProjectConfig = () => {
-  const handleReset = () => {};
+import { Routes } from "@/utils";
+import Link from "next/link";
 
+const ProjectConfig = () => {
   return (
-    <button type="button" onClick={handleReset}>
-      Reset
-    </button>
+    <div className="w-full max-w-xs">
+      <h1>Project page</h1>
+      <Link href={Routes.STEP_ONE}>Step One</Link>
+    </div>
   );
 };
+export default ProjectConfig;

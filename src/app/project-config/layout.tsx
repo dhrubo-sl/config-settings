@@ -9,15 +9,15 @@ export default function ProjectConfigLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="w-full px-2 lg:px-0">
-      <PageHeader
-        title="Share a Deal"
-        subtitle="Have an amazing deal or discount tailored for developers? Let us know!"
-      />
+    <div className="">
+      <PageHeader title="Project Configuration" subtitle="" />
 
-      <div className="mt-20 mb-28 flex flex-col gap-x-16 lg:flex-row">
-        <StepNavigation />
+      <div className="ml-10 mt-10 mb-28 flex flex-wrap gap-x-30 lg:flex-row">
         <ConfigContextProvider>
+          <div>
+            <StepNavigation />
+          </div>
+
           <div className="w-full">{children}</div>
         </ConfigContextProvider>
       </div>

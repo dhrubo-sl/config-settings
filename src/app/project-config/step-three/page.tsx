@@ -1,4 +1,5 @@
 "use client";
+import SubmitButton from "@/components/SubmitButton";
 import { useConfigContext } from "@/context/configContext";
 import { IMode, IStep } from "@/interfaces";
 import { Routes } from "@/utils";
@@ -28,27 +29,33 @@ const StepThreeForm: React.FC = () => {
 
   // this function has bug
   const handleAddMode = (modes: any) => {
-    console.log({ modes });
-    modes[modes.length - 1].steps = steps;
-    setModes(modes);
-    setSteps([]);
+    if (!steps.length) {
+      window.confirm("You didn't add any step. Do you want to confirm?");
+      setModes([]);
+      return;
+    } else {
+      modes[modes.length - 1].steps = steps;
+      setModes(modes);
+      setSteps([]);
+    }
   };
 
   const formsConfig = [
     {
-      title: "Modes Management",
+      title: "Add Modes",
       name: "modes",
       fields: [
         { name: "id", label: "ID", type: "text", required: true },
         { name: "name", label: "Name", type: "text", required: true },
         { name: "iconId", label: "Icon ID", type: "text", required: true },
-        { name: "hasToggle", label: "Has Toggle", type: "checkbox" },
         {
           name: "defaultHierarchy",
           label: "Default Hierarchy",
           type: "text",
           required: true,
         },
+        { name: "hasToggle", label: "Has Toggle", type: "checkbox" },
+
         {
           name: "hasLevelsToggle",
           label: "Has Levels Toggle",
@@ -62,7 +69,7 @@ const StepThreeForm: React.FC = () => {
 
   const stepFields = [
     {
-      title: "Manage Steps",
+      title: "Add Steps",
       name: "steps",
       fields: [
         { name: "name", label: "Name", type: "text", required: true },
@@ -80,15 +87,12 @@ const StepThreeForm: React.FC = () => {
   ];
 
   return (
-    <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
-      <h3 className="text-xl font-semibold mb-4">Mode Configuration</h3>
-
-      <h5 className="text-lg font-semibold mt-6">Steps Configuration</h5>
+    <form onSubmit={(e) => e.preventDefault()} className="max-w-md">
       {stepFields.map(({ title, fields, data, setData }, index) => (
         <div key={index} className="mb-10">
           <h3>{title}</h3>
           <DynamicForm fields={fields} data={data} setData={setData} />
-          <p>These steps will be added to the below mode</p>
+          <p className="text-sm"> *Steps will be added to the below mode</p>
         </div>
       ))}
 
@@ -104,14 +108,10 @@ const StepThreeForm: React.FC = () => {
           />
         </div>
       ))}
-
-      <button
-        type="button"
-        onClick={handleSubmit}
-        className="px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        Save and Continue to Revew
-      </button>
+      <SubmitButton
+        onClickHandler={handleSubmit}
+        title="Save and continue to review"
+      />
     </form>
   );
 };

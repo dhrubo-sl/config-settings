@@ -1,4 +1,5 @@
 "use client";
+import { useConfigContext } from "@/context/configContext";
 import { Routes } from "@/utils";
 import clsx from "clsx";
 import Link from "next/link";
@@ -8,17 +9,17 @@ import { useEffect, useState } from "react";
 
 const steps = [
   {
-    title: "Step One",
+    title: "Step 1",
     route: "step-one",
     link: Routes.STEP_ONE,
   },
   {
-    title: "Step Two",
+    title: "Step 2",
     route: "step-two",
     link: Routes.STEP_TWO,
   },
   {
-    title: "Step Three",
+    title: "Step 3",
     route: "step-three",
     link: Routes.STEP_THREE,
   },
@@ -26,6 +27,7 @@ const steps = [
 ];
 
 export default function StepNavigation() {
+  const { resetLocalStorage } = useConfigContext();
   const pathname = usePathname();
   const currentPath = path.basename(pathname);
   const [currentStep, setCurrentStep] = useState(1);
@@ -34,32 +36,31 @@ export default function StepNavigation() {
     setCurrentStep(steps.findIndex((step) => step.route === currentPath));
   }, [currentPath]);
 
+  const handleReset = () => {
+    window.confirm("Do you want to reset?");
+    resetLocalStorage();
+  };
   return (
-    <div className="mb-12 mt-4 lg:mb-0 min-w-60">
+    <div className="max-w-md">
       {/* back button */}
-      <Link
+      {/* <Link
         href={steps[currentStep - 1]?.link || steps[0].link}
-        className="mb-4 flex items-center gap-2 text-xl disabled:text-white/50 lg:mb-12 lg:gap-5"
+        className="mb-4 flex items-center gap-2 text-xl lg:mb-12 lg:gap-5"
       >
         Back
-      </Link>
+      </Link> */}
 
       {/* list of form steps */}
-      <div className="relative flex flex-row justify-between md:flex-col md:justify-start md:gap-8">
+      <div className="flex flex-row justify-between md:gap-x-20 mb-5">
         {steps.map((step, i) => (
-          <Link
-            href={step.link}
-            key={step.link}
-            className="group z-20 flex items-center gap-3 text-2xl"
-            prefetch={true}
-          >
+          <Link href={step.link} key={step.link} className="" prefetch={true}>
             <span
               className={clsx(
                 "flex h-10 w-10 items-center justify-center rounded-full border  text-sm  transition-colors duration-200  lg:h-12 lg:w-12 lg:text-lg",
                 {
-                  "border-none bg-teal-500 text-black group-hover:border-none group-hover:text-black":
+                  "border-none bg-blue-500 text-black group-hover:border-none group-hover:text-black":
                     currentPath === step.route,
-                  "border-white/75 bg-gray-900 group-hover:border-white group-hover:text-white text-white/75":
+                  "border-white/75 bg-gray-800 group-hover:border-white group-hover:text-white text-white/75":
                     currentPath !== step.route,
                 }
               )}
@@ -68,10 +69,10 @@ export default function StepNavigation() {
             </span>
             <span
               className={clsx(
-                "hidden text-white/75 transition-colors duration-200 group-hover:text-white lg:block",
+                "hidden text-black/75 transition-colors duration-200 group-hover:text-black text-sm lg:block",
                 {
                   "font-light": currentPath !== step.route,
-                  "font-semibold text-white": currentPath === step.route,
+                  "font-semibold text-black": currentPath === step.route,
                 }
               )}
             >
@@ -79,8 +80,16 @@ export default function StepNavigation() {
             </span>
           </Link>
         ))}
-        {/* mobile background dashes */}
-        <div className="absolute top-4 flex h-1 w-full border-b border-dashed lg:hidden" />
+
+        <span className="">
+          <button
+            type="button"
+            onClick={handleReset}
+            className="bg-gray-800 flex h-10 w-10 items-center justify-center rounded-full border text-sm text-white duration-200  lg:h-12 lg:w-12"
+          >
+            Reset
+          </button>
+        </span>
       </div>
     </div>
   );

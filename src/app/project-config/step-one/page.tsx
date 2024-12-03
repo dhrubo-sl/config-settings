@@ -1,16 +1,17 @@
 "use client";
+import AddItemButton from "@/components/AddItemButton";
 // components/steps/StepOne.tsx
 import InputField from "@/components/InputField";
+import SubmitButton from "@/components/SubmitButton";
+import ViewItems from "@/components/ViewItems";
 import { useConfigContext } from "@/context/configContext";
 import { Routes } from "@/utils";
-import { defaultButtonStyle } from "@/utils/constants";
 import { redirect } from "next/navigation";
 import React, { useState } from "react";
 
 const StepOne: React.FC = () => {
   const [inputColumn, setInputColumn] = useState(""); // Temporary input value
-  const { configData, updateConfigDetails, resetLocalStorage } =
-    useConfigContext();
+  const { configData, updateConfigDetails } = useConfigContext();
 
   console.log("rerender", configData.projectLogColumns);
 
@@ -42,16 +43,9 @@ const StepOne: React.FC = () => {
     updateProjectLogColumns(newColumns);
   };
 
-  const handleReset = () => {
-    resetLocalStorage();
-  };
-
   return (
-    <div>
-      <button type="button" onClick={handleReset}>
-        Reset
-      </button>
-      <form onSubmit={handleSubmit} className="max-w-md">
+    <div className="max-w-md">
+      <form className="max-w-md">
         <InputField
           type="text"
           name="version"
@@ -101,53 +95,28 @@ const StepOne: React.FC = () => {
           required
         />
 
-        <div className="flex">
-          <InputField
-            type="text"
-            name="projectLogColumns"
-            value={inputColumn}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setInputColumn(e.target.value)
-            }
-            label="Project Log Columns"
-            required
-          />
+        <InputField
+          type="text"
+          name="projectLogColumns"
+          value={inputColumn}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setInputColumn(e.target.value)
+          }
+          label="Project Log Columns"
+          required
+        />
 
-          <button
-            type="button"
-            className={defaultButtonStyle}
-            onClick={handleAddColumn}
-          >
-            +
-          </button>
-        </div>
+        <AddItemButton title="Add" handleOnClick={handleAddColumn} />
 
-        <div>
-          <ul>
-            {configData.projectLogColumns.map((e, index) => (
-              <li key={index} className="text-black">
-                {e}{" "}
-                <button
-                  type="button"
-                  className={defaultButtonStyle}
-                  onClick={() => handleRemoveColumn(index)}
-                >
-                  X
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ViewItems
+          items={configData.projectLogColumns}
+          handleOnClick={handleRemoveColumn}
+        />
 
-        <hr />
-
-        <button
-          type="button"
-          onClick={handleSubmit}
-          className={defaultButtonStyle}
-        >
-          Save and Continue to Step 2
-        </button>
+        <SubmitButton
+          onClickHandler={handleSubmit}
+          title="Save and continue to step 2"
+        />
       </form>
     </div>
   );

@@ -1,8 +1,8 @@
 "use client";
 // components/steps/StepOne.tsx
+import SubmitButton from "@/components/SubmitButton";
 import { useConfigContext } from "@/context/configContext";
 import { Routes } from "@/utils";
-import { defaultButtonStyle } from "@/utils/constants";
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import DynamicForm from "./DynamicForm";
@@ -44,7 +44,7 @@ const StepTwo: React.FC = () => {
 
   const formsConfig = [
     {
-      title: "Icons Form",
+      title: "Icons",
       name: "icons",
       fields: [
         { name: "id", label: "ID", type: "text", required: true },
@@ -55,7 +55,7 @@ const StepTwo: React.FC = () => {
       setData: setIcons,
     },
     {
-      title: "Source Audio Files Form",
+      title: "Source Audio Files",
       name: "sourceAudioFiles",
       fields: [
         { name: "title", label: "Title", type: "text", required: true },
@@ -71,7 +71,7 @@ const StepTwo: React.FC = () => {
       setData: setSourceAudioFiles,
     },
     {
-      title: "Hierarchies Form",
+      title: "Hierarchies",
       name: "hierarchies",
       fields: [
         { name: "id", label: "ID", type: "text", required: true },
@@ -102,26 +102,10 @@ const StepTwo: React.FC = () => {
       data: mediaOptions,
       setData: setMediaOptions,
     },
-    // {
-    //   title: "Manage Steps",
-    //   name: "steps",
-    //   fields: [
-    //     { name: "name", label: "Name", type: "text", required: true },
-    //     { name: "order", label: "Order", type: "number", required: true },
-    //     {
-    //       name: "hasToggle",
-    //       label: "Has Toggle",
-    //       type: "checkbox",
-    //       required: false,
-    //     },
-    //   ],
-    //   data: steps,
-    //   setData: setSteps,
-    // },
   ];
 
   return (
-    <form onSubmit={handleSubmit} className="">
+    <form onSubmit={handleSubmit} className="max-w-md">
       {/* Render each dynamic form */}
       {formsConfig.map(({ title, fields, data, setData }, index) => (
         <div key={index} className="mb-10">
@@ -130,13 +114,10 @@ const StepTwo: React.FC = () => {
         </div>
       ))}
 
-      <button
-        type="button"
-        onClick={handleSubmit}
-        className={defaultButtonStyle}
-      >
-        Save and Continue to Step 3
-      </button>
+      <SubmitButton
+        onClickHandler={handleSubmit}
+        title="Save and continue to step 3"
+      />
     </form>
   );
 };
