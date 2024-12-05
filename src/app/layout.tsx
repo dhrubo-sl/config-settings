@@ -1,3 +1,4 @@
+import PageHeader from "@/components/PageHeader";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -26,8 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased m-10`}
       >
+        <PageHeader title="Project Configuration" subtitle="" />
         {children}
       </body>
     </html>
